@@ -208,9 +208,13 @@ WHERE first_name LIKE '%o_';
 -- ########
 
 -- Tampilkan nama depan dan nomor handphone untuk perempuan yang memiliki nama belakang = Jordan
+SELECT first_name, phone FROM customer WHERE gender = 'F' AND last_name = "Jordan";
 -- Tampilkan nama product yang memiliki harga lebih besar dari 3.50 atau berasal dari Medan
+SELECT variant FROM product WHERE price > 3.50 OR origin = 'medan';
 -- Tampilkan semua kolom untuk laki - laki yang tidak memiliki nomor handphone
+SELECT * FROM customer WHERE gender = 'M' AND phone IS NULL;
 -- Tampilkan semua kolom untuk customer yang memiliki nama belakang antara 'Smith', 'Jordan', 'Armstrong';
+SELECT * FROM customer WHERE last_name IN('Smith', 'Jordan', 'Armstrong');
 
 
 
