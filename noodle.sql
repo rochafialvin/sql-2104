@@ -135,9 +135,89 @@ INSERT INTO orders (product_id,customer_id,order_time) VALUES (1,1,'2017-01-01 0
 (6,4,'2017-02-27 12-12-34'),(1,1,'2017-02-28 08-59-22');
 
 
+-- READ
+
+-- Tampilkan semua kolom dari table product
+SELECT * FROM product;
+
+-- Tampilkan kolom variant dan origin dari table product
+SELECT variant, origin FROM product;
+
+SELECT product_id, variant, price, origin FROM product
+WHERE price = 3.50 AND origin = "Banjar";
+
+SELECT product_id, variant, price, origin FROM product
+WHERE price = 3.00 OR origin = "Manado";
+
+-- INEQUALITY (>, <, >=, <=, !=)
+
+-- Harganya bukan 3.50
+SELECT product_id, variant, price FROM product WHERE price != 3.50;
+
+-- Product yang tidak memiliki asal. originnya null
+SELECT product_id, variant, origin FROM product WHERE origin IS NULL;
+
+-- Yang memiliki asal (origin) dan harganya 3.00
+SELECT * FROM product WHERE origin IS NOT NULL AND price = 3.00;
 
 
-select * from orders;
+SELECT first_name, last_name FROM customer
+WHERE last_name IN ('smith', 'jordan' ,'armstrong');
+
+SELECT first_name, last_name FROM customer
+WHERE last_name NOT IN ('smith', 'jordan' ,'armstrong');
+
+-- BETWEEN
+-- Tampilkan pesanan yang terjadi pada tanggal 5 hingga 20 januari 2017;
+SELECT * FROM orders
+WHERE order_time BETWEEN '2017-01-05 00:00:00' AND '2017-01-20 23:59:59';
+
+SELECT * FROM product
+WHERE price BETWEEN 3.00 AND 3.80;
+
+-- LIKE (case in-sensitive : tidak membedakan huruf kapital dan huruf kecil)
+-- % , karakter apapun , dengan jumlah berapapun
+-- _ , krakter apapun, satu karakter
+
+-- Customer yang memiliki huruf o, sebelum dan sesudah huruf o boleh ada karakter apapun dan berapapun
+-- Elon, Leonardo, John, Gob, George, Toby
+SELECT first_name FROM customer
+WHERE first_name LIKE '%o%';
+
+-- Customer yang memiliki akhiran l , tidak boleh ada karakter setelah huruf l, tapi boleh ada karakter sebelum l
+-- Neil, Michael, Paul
+SELECT first_name FROM customer
+WHERE first_name LIKE '%l';
+
+SELECT first_name FROM customer
+WHERE first_name LIKE 'l%';
+
+
+-- Customer yang memiliki huruf o, hanya boleh ada satu karakter pada awal dan akhir nama.
+-- Gob
+SELECT first_name FROM customer
+WHERE first_name LIKE '_o_';
+
+-- Customer yang memiliki huruf o
+-- sebelum huruf o boleh memiliki karakter berapapun, setelah huruf o hanya boleh ada satu karakter.
+SELECT first_name FROM customer
+WHERE first_name LIKE '%o_';
+
+
+-- EXERCISE
+-- ########
+
+-- Tampilkan nama depan dan nomor handphone untuk perempuan yang memiliki nama belakang = Jordan
+-- Tampilkan nama product yang memiliki harga lebih besar dari 3.50 atau berasal dari Medan
+-- Tampilkan semua kolom untuk laki - laki yang tidak memiliki nomor handphone
+-- Tampilkan semua kolom untuk customer yang memiliki nama belakang antara 'Smith', 'Jordan', 'Armstrong';
+
+
+
+
+
+
+
 
 
 
