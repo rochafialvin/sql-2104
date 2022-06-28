@@ -23,5 +23,20 @@ CREATE TABLE user (
 ALTER TABLE user ADD city VARCHAR(20) AFTER age;
 ALTER TABLE user DROP city;
 ALTER TABLE user RENAME COLUMN phone TO phoneNumber;
-
 ALTER TABLE product ADD updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER createdAt;
+
+DESC user;
+
+-- INSERT DATA
+INSERT INTO user ( phone, username, password) VALUES('0812', 'rochafi', 'password');
+INSERT INTO user ( phone, username, password) 
+VALUES('0813', 'alvin', 'password'), ('0814', 'hanaya', 'password');
+
+-- UPDATE DATA
+UPDATE user SET password = 'password999', phone = '0821' WHERE user_id = 1 ;
+
+-- DELETE DATA
+DELETE FROM user WHERE username = 'hanaya';
+
+
+
