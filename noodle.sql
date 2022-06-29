@@ -275,15 +275,134 @@ SELECT variant, DATE(created_at) FROM product;
 
 -- EXERCISE
 -- Tampilkan nama produk dan harga untuk semua product yang berasal dari DKI atau Manado
+SELECT variant, price  FROM product WHERE origin IN ("Betawi", "Manado");
 -- Tampilkan semua kolom untuk order yang terjadi pada bulan februari untuk costumer dengan id 2 , 4, 6, 8
+SELECT * FROM orders WHERE MONTH(order_time) = 2 AND customer_id IN (2, 4, 6, 8);
 -- Tampilkan nama depan, nama belakang, nomor tlp untuk customer yang nama belakang mengandung huruf 'ar'
+SELECT first_name, last_name, phone FROM customer WHERE last_name LIKE '%ar%';
 -- Tampilkan semua kolom untuk 3 order pertama yang dilakukan oleh customer dengan id 4
+SELECT * FROM orders WHERE customer_id = 4 LIMIT 3;
 -- Tampilkan product id berapa saja yang berhasil terjual pada bulan februari
+SELECT product_id FROM orders WHERE MONTH(order_time) = 2;
 -- Tampilkan semua kolom untuk orderan terakhir yang dilakukan oleh customer dengan id 4
+SELECT * FROM orders WHERE customer_id = 4 ORDER BY order_time DESC LIMIT 1;
 
 
 
+-- JOIN
+-- 2 tables
+SELECT 
+	c.customer_id, first_name, phone, order_time 
+FROM customer c
+JOIN orders o ON c.customer_id = o.customer_id;
+
+-- customer : customer_id, first_name, last_name, phone
+-- order : order_id, customer_id, product_id, order_time
+
+-- c.customer_id, first_name, order_time
+SELECT 
+	 first_name, order_time
+FROM customer c
+JOIN orders o USING(customer_id) ;
+
+-- tables
+SELECT 
+	c.customer_id, first_name, variant, price, order_time 
+FROM customer c
+JOIN orders o USING(customer_id)
+JOIN product p USING(product_id)
+WHERE price <= 3.5 LIMIT 3;
+
+-- JOIN : INNER JOIN | LEFT JOIN | RIGHT JOIN
+-- ##########################################
+
+SELECT
+	first_name, order_time
+FROM customer c
+LEFT JOIN orders o USING(customer_id);
+
+SELECT
+	first_name, order_time
+FROM orders o
+RIGHT JOIN customer c USING(customer_id);
+
+-- Sub Query
+
+-- List produk yang pernah dipesan
+SELECT DISTINCT product_id FROM orders; -- 1 2 3 4 5 6 7
+
+-- List produk yang belum pernah dipesan / tidak ada di tabel orders
+SELECT product_id FROM product WHERE product_id NOT IN (SELECT DISTINCT product_id FROM orders);
+
+-- AGGREGATE FUNCTION 💘
+
+-- AVG
+-- Rata - rata harga mi
+SELECT AVG(price) FROM product; -- 1 baris
+
+SELECT origin FROM product; -- 12 baris
+
+SELECT 
+	origin, AVG(price) 
+FROM product 
+GROUP BY origin; 
+
+
+-- COUNT
+
+SELECT variant, origin FROM product; -- variant : 12, origin : 11
+
+SELECT COUNT(variant) FROM product; -- Menghitung jumlah data pada kolom variant
+
+SELECT COUNT(origin) FROM product; -- Menghitung jumlah data pada kolom origin
+
+SELECT COUNT(DISTINCT origin) FROM product; -- Menghitung jumlah origin secara unique.
+
+-- Jumlah mie untuk setiap daerah
+SELECT origin, COUNT(variant) Total FROM product GROUP BY origin;
+
+
+-- SUM
+
+-- total pendapatan seluruhnya
+
+SELECT
+	SUM(price)
+FROM orders o 
+JOIN product p USING(product_id);
+
+-- total pendapatan untuk masing - masing variant
+
+SELECT
+	variant, SUM(price)
+FROM orders o 
+JOIN product p USING(product_id)
+GROUP BY variant;
+
+
+-- MIN & MAX
+
+SELECT MAX(price) FROM product;
+SELECT MIN(price) FROM product;
+
+-- profit terendah yang di dapatkan oleh sebuah variant
+
+SELECT variant, SUM(price)
+FROM orders o
+JOIN product p USING(product_id) GROUP BY variant ORDER BY SUM(price) LIMIT 1;
+
+
+SELECT MIN(total_price) FROM (SELECT variant, SUM(price) as total_price
+FROM orders o
+JOIN product p USING(product_id)
+GROUP BY variant) as x;
 
 
 
+-- EXERCISE
 
+-- Rata2 umur pelanggan (average_age)
+-- Rata2 umur wanita dan pria. (gender, average_age)
+-- Jumlah customer dikelompokkan berdasarkan umur. (age, total_customer)
+-- Jumlah order masing - masing user (first_name, last_name, total_order)
+-- Tampilkan top 3 customer pada bulan januari (first_name, last_name, total_order)
