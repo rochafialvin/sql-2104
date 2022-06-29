@@ -217,13 +217,69 @@ SELECT * FROM customer WHERE gender = 'M' AND phone IS NULL;
 SELECT * FROM customer WHERE last_name IN('Smith', 'Jordan', 'Armstrong');
 
 
+-- ORDER BY
+-- Mengurutkan data berdasarkan kolom tertentu.
+-- ASC / ASCENDING  : kecil --> besar (default)
+-- DESC / DESCENDING : besar --> kecil
+
+-- Mengurutkan produk berdasarkan harga (dari yang termurah).
+SELECT product_id, variant, price FROM product ORDER BY price;
+-- termahal
+SELECT product_id, variant, price FROM product ORDER BY price DESC ;
+
+-- Pesanan yang dilakukan oleh user dengan id 4 dan diurutkan berdasarkan tanggal (dari yang terbaru)
+SELECT * FROM orders ORDER BY order_time DESC;
+
+-- DISTINCT
+-- Menampilkan data secara unique
+
+-- Menampilkan daftar origin products
+SELECT DISTINCT (origin) FROM product;
+
+-- Product apa saja yang pernah dipesan
+SELECT DISTINCT(product_id) FROM orders;
+
+-- LIMIT & OFFSET
+-- ##############
+-- LIMIT  : Membatasi jumlah data
+-- OFFSET : Skip data
 
 
+SELECT product_id, variant FROM product LIMIT 5;
+SELECT product_id, variant FROM product LIMIT 5 OFFSET 2 ;
 
+-- 1 halaman 5 product
 
+-- halaman 1
+SELECT product_id, variant FROM product LIMIT 5 OFFSET 0;
 
+-- halaman 2
+SELECT product_id, variant FROM product LIMIT 5 OFFSET 5;
 
+-- halaman 3
+SELECT product_id, variant FROM product LIMIT 5 OFFSET 10;
 
+-- ALIAS
+-- #####
+-- Mengubah nama kolom saat ditampilkan
+
+SELECT product_id AS No, variant AS Nama FROM product;
+
+SELECT product_id No, variant Nama FROM product;
+
+-- MONTH(), YEAR(), DATE()
+
+SELECT variant, YEAR(created_at) FROM product;
+SELECT variant, MONTH(created_at) FROM product;
+SELECT variant, DATE(created_at) FROM product;
+
+-- EXERCISE
+-- Tampilkan nama produk dan harga untuk semua product yang berasal dari DKI atau Manado
+-- Tampilkan semua kolom untuk order yang terjadi pada bulan februari untuk costumer dengan id 2 , 4, 6, 8
+-- Tampilkan nama depan, nama belakang, nomor tlp untuk customer yang nama belakang mengandung huruf 'ar'
+-- Tampilkan semua kolom untuk 3 order pertama yang dilakukan oleh customer dengan id 4
+-- Tampilkan product id berapa saja yang berhasil terjual pada bulan februari
+-- Tampilkan semua kolom untuk orderan terakhir yang dilakukan oleh customer dengan id 4
 
 
 
