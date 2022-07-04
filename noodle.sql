@@ -407,8 +407,9 @@ GROUP BY variant) as x;
 -- Jumlah order masing - masing user (first_name, last_name, total_order)
 -- Tampilkan top 3 customer pada bulan januari (first_name, last_name, total_order)
 
--- Menambahkan field password dan image di customer
-ALTER TABLE customer
+-- Menambahkan field password, image, username, email di user
+ALTER TABLE user
 ADD password VARCHAR(200) NOT NULL AFTER phone,
 ADD image VARCHAR(100) AFTER age,
-ADD username VARCHAR(20) UNIQUE AFTER customer_id;
+ADD username VARCHAR(20) UNIQUE AFTER user_id,
+ADD email VARCHAR(50) NOT NULL AFTER username;
